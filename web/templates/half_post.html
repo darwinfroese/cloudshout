@@ -7,12 +7,21 @@
 		<link rel="stylesheet" href="main.css">
 	</head>
 
-	<body class="half-width">
-		<h3> {{ .Title }} </h3>
-		<p> {{ .Description }} </p>
-		<br>
-		<hr>
-		<p> {{ .Post }} </p>
+	<body>
+
+		<nav>
+			<a href="/">Home</a>
+			<a href="/admin">Admin</a>
+		</nav>
+
+		<div class="half-width">
+			<h3> {{ .Title }} </h3>
+			<span class="description"> {{ .Description }} </span>
+			<br>
+			<hr>
+			<p> {{ .Body }} </p>
+		</div>
+
 	</body>
 
 </html>

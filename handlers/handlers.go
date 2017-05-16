@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type index struct {
@@ -31,6 +32,7 @@ type post struct {
 	Description string
 	Template    string
 	Post        string
+	Body        template.HTML
 	URL         string
 }
 
@@ -145,6 +147,9 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 		p.key = uniqueID
 		p.URL = "/blog?key=" + strconv.Itoa(uniqueID)
 		uniqueID++
+
+		p.Post = strings.Replace(p.Post, "\n", "<br>", -1)
+		p.Body = template.HTML(p.Post)
 
 		posts = append(posts, p)
 	}

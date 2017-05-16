@@ -9,6 +9,10 @@
 	</head>
 
 	<body>
+		<nav>
+			<a href="/">Home</a>
+		</nav>
+
 		<h1> {{ .Heading }} </h1>
 		<hr>
 
@@ -30,8 +34,7 @@
 		</section>
 		<section>
 			<h3> Post Body </h3>
-			<textarea name="post_ta" id="post_ta" rows="25" cols="128">
-			</textarea>
+			<textarea name="post_ta" id="post_ta" rows="25" cols="72"></textarea>
 		</section>
 
 		<button style="float: right" onclick="CreatePost()">Create Post!</button>
