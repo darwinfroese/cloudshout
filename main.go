@@ -12,6 +12,7 @@ func main() {
 	m := mux.NewMux()
 
 	m.AddRoute("/", handlers.RenderIndex)
+	m.AddRoute("/blog", handlers.RenderPost)
 	m.AddRoute("/main.css", handlers.RenderCSS)
 	m.AddRoute("/main.js", handlers.ServeJS)
 	m.AddRoute("/admin", handlers.RenderAdmin)

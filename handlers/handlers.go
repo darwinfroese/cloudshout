@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 type index struct {
@@ -25,13 +26,21 @@ type theme struct {
 }
 
 type post struct {
+	key         int
 	Title       string
 	Description string
 	Template    string
 	Post        string
+	URL         string
 }
 
 var posts []post
+var uniqueID = 1000
+var templateKeys = []string{"Text Post", "Half Width Text Post"}
+var templateMap = map[string]string{
+	"Text Post":            "web/templates/full_post.html",
+	"Half Width Text Post": "web/templates/half_post.html",
+}
 
 // RenderIndex - Will be used to render our index.html web page
 func RenderIndex(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +80,7 @@ func ServeJS(w http.ResponseWriter, r *http.Request) {
 // RenderAdmin - Will render the admin page with templated options
 func RenderAdmin(w http.ResponseWriter, r *http.Request) {
 	a := admin{Title: "Cloudshout Official Blog - Admin", Heading: "Admin Page"}
-	a.Templates = []string{"Text Post", "Half Width Text Post"}
+	a.Templates = templateKeys
 
 	if pusher, ok := w.(http.Pusher); ok {
 		if err := pusher.Push("/main.css", nil); err != nil {
@@ -94,11 +103,48 @@ func RenderAdmin(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, a)
 }
 
+// RenderPost - renders the post based on the key passed in as a var
+func RenderPost(w http.ResponseWriter, r *http.Request) {
+	key, _ := strconv.Atoi(r.URL.Query()["key"][0])
+
+	var p post
+
+	for _, pp := range posts {
+		if pp.key == key {
+			p = pp
+		}
+	}
+
+	// check if p is empty
+	if (post{}) == p {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	// serve template with p
+	f := templateMap[p.Template]
+	t, err := template.ParseFiles(f)
+
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+
+		e := http.StatusInternalServerError
+		http.Error(w, http.StatusText(e), e)
+		return
+	}
+
+	t.Execute(w, p)
+}
+
 // CreatePostHandler - Creates a blog post
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		var p post
 		json.NewDecoder(r.Body).Decode(&p)
+
+		p.key = uniqueID
+		p.URL = "/blog?key=" + strconv.Itoa(uniqueID)
+		uniqueID++
 
 		posts = append(posts, p)
 	}

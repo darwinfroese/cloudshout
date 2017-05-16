@@ -39,3 +39,14 @@ p {
 	margin: auto 50px;
 	font-size: 18px;
 }
+
+.full-width,
+.half-width {
+	display: block;
+	margin: auto;
+	text-align: center;
+}
+
+.half-width {
+	width: 50%;
+}
