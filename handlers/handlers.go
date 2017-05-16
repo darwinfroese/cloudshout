@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 type index struct {
 	Title string
+	Posts []post
 }
 
 type admin struct {
@@ -22,9 +24,18 @@ type theme struct {
 	BackgroundColor string
 }
 
+type post struct {
+	Title       string
+	Description string
+	Template    string
+	Post        string
+}
+
+var posts []post
+
 // RenderIndex - Will be used to render our index.html web page
 func RenderIndex(w http.ResponseWriter, r *http.Request) {
-	i := index{Title: "Cloudshout Official Blog"}
+	i := index{Title: "Cloudshout Official Blog", Posts: posts}
 
 	if pusher, ok := w.(http.Pusher); ok {
 		if err := pusher.Push("/main.css", nil); err != nil {
@@ -50,6 +61,11 @@ func RenderIndex(w http.ResponseWriter, r *http.Request) {
 // RenderCSS - Serves main.css
 func RenderCSS(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "web/main.css")
+}
+
+// ServeJS - Serves main.js
+func ServeJS(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "web/main.js")
 }
 
 // RenderAdmin - Will render the admin page with templated options
@@ -81,6 +97,9 @@ func RenderAdmin(w http.ResponseWriter, r *http.Request) {
 // CreatePostHandler - Creates a blog post
 func CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		// Create Blog Post
+		var p post
+		json.NewDecoder(r.Body).Decode(&p)
+
+		posts = append(posts, p)
 	}
 }

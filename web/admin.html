@@ -14,19 +14,23 @@
 
 		<section>
 			<h3> Template </h3>
-			<select>
+			<select name="template_sel" id="template_sel">
 				{{ range $index, $element := .Templates }}
 				<option>{{ $element }}</option>
 				{{end}}
 			</select>
 		</section>
 		<section>
+			<h3> Title </h3>
+			<input name="title_tb" id="title_tb" type="text" maxlength="128" />
+		</section>
+		<section>
 			<h3> Description </h3>
-			<input type="text" maxlength="128" />
+			<input id="desc_tb" name="desc_tb" type="text" maxlength="128" />
 		</section>
 		<section>
 			<h3> Post Body </h3>
-			<textarea rows="25" cols="128">
+			<textarea name="post_ta" id="post_ta" rows="25" cols="128">
 			</textarea>
 		</section>
 

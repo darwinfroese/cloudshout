@@ -10,25 +10,18 @@
 		<h1>{{ .Title }}</h1>
 		<hr>
 
+		{{ if not .Posts}}
 		<section>
-		<h3>Title 1</h3>
-		<p>This is blog one</p>
+			<h3> No blog posts! </h3>
 		</section>
+		{{ end }}
 
+		{{ range .Posts }}
 		<section>
-		<h3>Title 2</h3>
-		<p>This is blog two</p>
+			<h3> {{ .Title }} </h3>
+			<p> {{ .Description }} </p>
 		</section>
-
-		<section>
-		<h3>Title 3</h3>
-		<p>This is blog three</p>
-		</section>
-
-		<section>
-		<h3>Title 4</h3>
-		<p>This is blog four</p>
-		</section>
+		{{ end }}
 
 	</body>
 

@@ -13,6 +13,7 @@ func main() {
 
 	m.AddRoute("/", handlers.RenderIndex)
 	m.AddRoute("/main.css", handlers.RenderCSS)
+	m.AddRoute("/main.js", handlers.ServeJS)
 	m.AddRoute("/admin", handlers.RenderAdmin)
 	m.AddRoute("/api/v1/blog", handlers.CreatePostHandler)
 
