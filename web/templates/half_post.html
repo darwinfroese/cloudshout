@@ -1,27 +1,10 @@
-<!DOCTYPE html>
+{{ define "content" }}
+	<div class="half-width">
+		<h3> {{ .Title }} </h3>
+		<span class="description"> {{ .Description }} </span>
+		<br>
+		<hr>
+		<p> {{ .Body }} </p>
+	</div>
 
-<html>
-
-	<head>
-		<title> {{ .Title }} </title>
-		<link rel="stylesheet" href="main.css">
-	</head>
-
-	<body>
-
-		<nav>
-			<a href="/">Home</a>
-			<a href="/admin">Admin</a>
-		</nav>
-
-		<div class="half-width">
-			<h3> {{ .Title }} </h3>
-			<span class="description"> {{ .Description }} </span>
-			<br>
-			<hr>
-			<p> {{ .Body }} </p>
-		</div>
-
-	</body>
-
-</html>
+{{ end }}

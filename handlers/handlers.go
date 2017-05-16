@@ -125,7 +125,7 @@ func RenderPost(w http.ResponseWriter, r *http.Request) {
 
 	// serve template with p
 	f := templateMap[p.Template]
-	t, err := template.ParseFiles(f)
+	t, err := template.ParseFiles("web/templates/post.html", f)
 
 	if err != nil {
 		fmt.Println("Error:", err.Error())
